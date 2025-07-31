@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Rock Paper Scissors Game</title>
+  <style>
+    /* Basic Reset */
+    body, html {
+      margin: 0;
+      padding: 0;
+      font-family: 'Arial', sans-serif;
+      height: 100%;
+      background: #121212;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      color: white;
+    }
+
+    /* Cinematic Background Animation */
+    @keyframes backgroundAnimation {
+      0% { background-color: #121212; }
+      50% { background-color: #1a1a1a; }
+      100% { background-color: #121212; }
+    }
+
+    /* Apply the animation */
+    body {
+      animation: backgroundAnimation 10s ease-in-out infinite;
+    }
+
+    /* Main Container */
+    .container {
+      text-align: center;
+      margin-top: 50px;
+    }
+
+    /* Heading */
+    p {
+      font-size: 2em;
+      margin-bottom: 30px;
+    }
+
+    /* Buttons Styling */
+    .gameButton {
+      font-size: 3em;
+      width: 120px;
+      height: 120px;
+      margin: 20px;
+      background-color: black;
+      border: 5px solid grey;
+      border-radius: 50%;
+      color: yellow;
+      cursor: pointer;
+      transition: transform 0.3s ease, background-color 0.3s ease;
+      display: inline-block;
+      text-align: center;
+      line-height: 120px;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+    }
+
+    /* Button Hover Effects */
+    .gameButton:hover {
+      transform: scale(1.2);
+      background-color: #333;
+    }
+
+    /* Adding a border around buttons */
+    .button-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      border: 5px solid grey;
+      border-radius: 15px;
+      padding: 20px;
+      margin-top: 50px;
+      box-shadow: 0 0 20px rgba(255, 255, 255, 0.1);
+    }
+
+    /* Total Wins, Losses, and Ties */
+    #scores {
+      margin-top: 30px;
+      font-size: 1.5em;
+      display: flex;
+      justify-content: center;
+      gap: 50px;
+    }
+
+    /* Cinematic effect for the window border */
+    .window-border {
+      border: 3px solid #fff;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 0 30px rgba(255, 255, 255, 0.2);
+    }
+  </style>
+</head>
+<body>
+  <div class="window-border" id="gameWindow">
+    <div class="container">
+      <p>Rock Paper Scissors</p>
+
+      <!-- Rock Button -->
+      <button id="rockBtn" class="gameButton" onclick="playGame('rock')">
+        ✊
+      </button>
+
+      <!-- Paper Button -->
+      <button id="paperBtn" class="gameButton" onclick="playGame('paper')">
+        ✋
+      </button>
+
+      <!-- Scissors Button -->
+      <button id="scissorsBtn" class="gameButton" onclick="playGame('scissors')">
+        ✂️
+      </button>
+
+      <div id="scores">
+        <p id="winCount">Wins: 0</p>
+        <p id="lossCount">Losses: 0</p>
+        <p id="tieCount">Ties: 0</p>
+        <p id="result">Result: </p>
+      </div>
+
+      <button onclick="window.location.reload();">Reset</button>
+    </div>
+  </div>
+
+  <script>
+    // Initialize counts
+    let winCount = 0;
+    let lossCount = 0;
+    let tieCount = 0;
+
+    function playGame(playerChoice) {
+      let a = Math.random();
+      let computerChoice = a < 1/3 ? 'rock' : a < 2/3 ? 'paper' : 'scissors';
+      let result = '';
+      let gameWindow = document.getElementById('gameWindow');
+
+      if (playerChoice === computerChoice) {
+        tieCount++;
+        result = 'Tie';
+        gameWindow.style.borderColor = 'white';
+      } else if (
+        (playerChoice === 'rock' && computerChoice === 'scissors') ||
+        (playerChoice === 'paper' && computerChoice === 'rock') ||
+        (playerChoice === 'scissors' && computerChoice === 'paper')
+      ) {
+        winCount++;
+        result = 'You won!';
+        gameWindow.style.borderColor = 'green';
+      } else {
+        lossCount++;
+        result = 'You lose!';
+        gameWindow.style.borderColor = 'red';
+      }
+
+      document.getElementById('result').innerHTML = 'Result: ' + result;
+      document.getElementById('winCount').innerHTML = 'Wins: ' + winCount;
+      document.getElementById('lossCount').innerHTML = 'Losses: ' + lossCount;
+      document.getElementById('tieCount').innerHTML = 'Ties: ' + tieCount;
+      alert('You chose ' + playerChoice + ' and the computer chose ' + computerChoice + '. ' + result);
+    }
+  </script>
+</body>
+</html>
